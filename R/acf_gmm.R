@@ -10,15 +10,15 @@
 acf_gmm <- function(param, data, instruments = c("const", "l_lag", "k", "phi_lag")){
   data <- data[!is.na(data$l_lag),]
 
-  PHI <- data[, "phi"] %>% as.matrix()
-  PHI_lag <- data[, "phi_lag"] %>% as.matrix()
-  Z <- data[, instruments] %>% as.matrix()
+  PHI <- as.matrix(data[, "phi"])
+  PHI_lag <- as.matrix(data[, "phi_lag"])
+  Z <- as.matrix(data[, instruments])
 
-  X <- data[, c("const", "l", "k")] %>% as.matrix()
-  X_lag <- data[, c("const", "l_lag", "k_lag")] %>% as.matrix()
+  X <- as.matrix(data[, c("const", "l", "k")])
+  X_lag <- as.matrix(data[, c("const", "l_lag", "k_lag")])
 
-  Y <- data[, "y"] %>% as.matrix()
-  C <- data[, "const"]
+  Y <- as.matrix(data[, "y"])
+  C <- as.matrix(data[, "const"])
   betas <- as.matrix(c(param["b0"], param["bl"], param["bk"]), ncol = 1)
 
   OMEGA <- Y - X %*% betas
