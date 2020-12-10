@@ -1,5 +1,14 @@
+#' Second Stage GMM
+#'
+#' Evaluate the moment conditions.
+#'
+#' @param param numeric
+#' @param data data frame
+#' @param instruments character
+#'
+#' @return numeric
 acf_gmm <- function(param, data, instruments = c("const", "l_lag", "k", "phi_lag")){
-  data <- filter(data, !is.na(l_lag))
+  data <- data[!is.na(data$l_lag),]
 
   PHI <- data[, "phi"] %>% as.matrix()
   PHI_lag <- data[, "phi_lag"] %>% as.matrix()
