@@ -1,15 +1,16 @@
 Package: markup
-Title: What the Package Does (One Line, Title Case)
+Title: Estimate Production Functions
 Version: 0.0.0.9000
 Authors@R: 
-    person(given = "First",
-           family = "Last",
+    person(given = "David",
+           family = "Benček",
            role = c("aut", "cre"),
-           email = "first.last@example.com",
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
-License: `use_mit_license()`, `use_gpl3_license()` or friends to
-    pick a license
+           email = "david.bencek@monopolkommission.bund.de")
+Description: To make markup estimation from firm data easier,
+    this package implements the two-stage proxy function approach
+    of estimating production functions suggested by 
+    Ackerberg, Caves, and Frazer.
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
