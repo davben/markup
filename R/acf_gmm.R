@@ -10,6 +10,8 @@
 acf_gmm_cd <- function(param, data, instruments = c("const", "l_lag", "k", "phi_lag")){
   data <- data[!is.na(data$l_lag),]
 
+  if (!exists("const", data)) data$const <- 1
+
   PHI <- as.matrix(data[, "phi"])
   PHI_lag <- as.matrix(data[, "phi_lag"])
   Z <- as.matrix(data[, instruments])
@@ -48,6 +50,8 @@ acf_gmm_cd <- function(param, data, instruments = c("const", "l_lag", "k", "phi_
 #' @return numeric
 acf_gmm_tl <- function(param, data, instruments = c("const", "l_lag", "k", "ll_lag", "kk", "l_lag_k", "phi_lag")){
   data <- data[!is.na(data$l_lag),]
+
+  if (!exists("const", data)) data$const <- 1
 
   PHI <- as.matrix(data[, "phi"])
   PHI_lag <- as.matrix(data[, "phi_lag"])
