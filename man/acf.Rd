@@ -7,17 +7,67 @@
 acf(initial_values, data, type = c("cd", "tl"), ...)
 }
 \arguments{
-\item{initial_values}{named numeric}
+\item{initial_values}{A named numeric vector of initial values for the GMM-procedure.}
 
-\item{data}{data frame}
+\item{data}{A data frame of input factors and production output. Variable names need to follow a specific convention, see below.}
 
-\item{type}{string specifying the type of production function to be estimated. Currently, only Cobb-Douglas is supported.}
+\item{type}{A string specifying the type of production function to be estimated, either "cd" for Cobb-Douglas or "tl" for translog.}
 
-\item{...}{additional arguments to be passed to \code{optim()}}
+\item{...}{additional arguments to be passed to \code{optim()} and the moment evaluator function. See Details for more information.}
 }
 \value{
-list
+A list with components (see \code{\link[stats:optim]{stats::optim()}}):
+\itemize{
+\item \code{par} A vector of best parameter estimates.
+\item \code{value} The minimized moment function value.
+\item \code{counts} The number of calls to fn and gr.
+\item \code{convergence} An integer code. 0 indicates sucessful completion.
+\item \code{message} A character string potentially giving additional information.
+}
 }
 \description{
 Title
+}
+\details{
+\subsection{Estimation}{
+
+The implemented function uses a third-order polynomial to approximate the Markov process
+of productivity growth.
+}
+
+\subsection{Initial values}{
+
+The choice of initial values can significantly influence estimation results.
+It is recommended to run estimations on a range of combinations of initial values.
+Initial values must be provided for each coefficient of the underlying production function.
+For a Cobb-Douglas type, this requires three initial values, \code{c(b0 = 0, bl = 0.4, bk = 0.6)}.
+It is best practice to provide a named vector to avoid unnecessary, and potentially hard to debug mistakes.
+Without any names, the estimation routine assumes the order of initial values to be (1) intercept, (2) labour,
+and (3) capital coefficient.
+}
+
+\subsection{Instruments}{
+
+The moment evaluator function by default uses lagged labour as an instrument for labour as well as a constant, capital, and lagged phi.
+In order to manually specify the instruments to be used in the GMM-stage, they can be added via the \code{instruments}-argument
+as a character vector of variable names which gets passed to the moment function.
+For example, adding same-period labour as an instrument is done using \code{instruments = c("const", "l", "l_lag", "k", "phi_lag")}
+in the \code{acf()}-function.
+}
+
+\subsection{Data}{
+
+Variable names are hard-coded in the estimation procedures of this package and follow conventions in the literature.
+Depending on the functional type, the following variables as well as their lags are required (sufficient for Cobb-Douglas in bold):
+\itemize{
+\item \strong{y} (log output)
+\item \strong{l} (log labour)
+\item \strong{k} (log capital)
+\item \strong{phi} (fitted value from a first-stage approximation)
+\item ll (squared log labour)
+\item kk (square log capital)
+\item lk (interaction of log labour and log capital)
+\item l_lag_k (interaction of lagged log labour and current log capital, no further lag required)
+}
+}
 }
