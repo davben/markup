@@ -4,12 +4,14 @@
 \alias{acf}
 \title{Title}
 \usage{
-acf(initial_values, data, ...)
+acf(initial_values, data, type = c("cd", "tl"), ...)
 }
 \arguments{
 \item{initial_values}{named numeric}
 
 \item{data}{data frame}
+
+\item{type}{string specifying the type of production function to be estimated. Currently, only Cobb-Douglas is supported.}
 
 \item{...}{additional arguments to be passed to \code{optim()}}
 }
