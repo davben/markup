@@ -1,4 +1,8 @@
-#' Title
+#' Estimate a structural value-added production function
+#'
+#' @description
+#' Using the two-stage proxy function approach suggested by Ackerberg, Caves, and Frazer (2015),
+#' estimate a Cobb-Douglas or translog structural value-added production function.
 #'
 #' @param initial_values A named numeric vector of initial values for the GMM-procedure.
 #' @param data A data frame of input factors and production output. Variable names need to follow a specific convention, see below.
@@ -48,6 +52,9 @@
 #' * lk (interaction of log labour and log capital)
 #' * l_lag_k (interaction of lagged log labour and current log capital, no further lag required)
 #'
+#' @references
+#' Ackerberg, D. A., Caves, K., & Frazer, G. (2015). Identification Properties of Recent Production Function Estimators. Econometrica, 83(6), 2411–2451. https://doi.org/10.3982/ECTA13408
+
 acf <- function(initial_values, data, type = c("cd", "tl"), ...) {
   type <- match.arg(type)
 

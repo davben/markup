@@ -2,7 +2,7 @@
 % Please edit documentation in R/acf.R
 \name{acf}
 \alias{acf}
-\title{Title}
+\title{Estimate a structural value-added production function}
 \usage{
 acf(initial_values, data, type = c("cd", "tl"), ...)
 }
@@ -26,7 +26,8 @@ A list with components (see \code{\link[stats:optim]{stats::optim()}}):
 }
 }
 \description{
-Title
+Using the two-stage proxy function approach suggested by Ackerberg, Caves, and Frazer (2015),
+estimate a Cobb-Douglas or translog structural value-added production function.
 }
 \details{
 \subsection{Estimation}{
@@ -70,4 +71,7 @@ Depending on the functional type, the following variables as well as their lags 
 \item l_lag_k (interaction of lagged log labour and current log capital, no further lag required)
 }
 }
+}
+\references{
+Ackerberg, D. A., Caves, K., & Frazer, G. (2015). Identification Properties of Recent Production Function Estimators. Econometrica, 83(6), 2411–2451. https://doi.org/10.3982/ECTA13408
 }
