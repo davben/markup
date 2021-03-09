@@ -7,8 +7,9 @@
 #' @param instruments character
 #'
 #' @return numeric
+#' @importFrom stats complete.cases
 acf_go_gmm_cd <- function(param, data, instruments = c("const", "l_lag", "k", "m_lag", "phi_lag")){
-  data <- data[complete.cases(data[, instruments]), ]
+  data <- data[stats::complete.cases(data[, instruments]), ]
 
   if (!exists("const", data)) data$const <- 1
 
@@ -48,8 +49,9 @@ acf_go_gmm_cd <- function(param, data, instruments = c("const", "l_lag", "k", "m
 #' @param instruments character
 #'
 #' @return numeric
-acf_gmm_tl <- function(param, data, instruments = c("const", "l_lag", "k", "m_lag", "ll_lag", "kk",  "mm_lag", "l_lag_k", "lm_lag", "k_m_lag", "phi_lag")){
-  data <- data[complete.cases(data[, instruments]), ]
+#' @importFrom stats complete.cases
+acf_go_gmm_tl <- function(param, data, instruments = c("const", "l_lag", "k", "m_lag", "ll_lag", "kk",  "mm_lag", "l_lag_k", "lm_lag", "k_m_lag", "l_lag_k_m_lag", "phi_lag")){
+  data <- data[stats::complete.cases(data[, instruments]), ]
 
   if (!exists("const", data)) data$const <- 1
 
@@ -57,12 +59,12 @@ acf_gmm_tl <- function(param, data, instruments = c("const", "l_lag", "k", "m_la
   PHI_lag <- as.matrix(data[, "phi_lag"])
   Z <- as.matrix(data[, instruments])
 
-  X <- as.matrix(data[, c("const", "l", "k", "m", "ll", "kk", "mm", "lk", "lm", "km")])
-  X_lag <- as.matrix(data[, c("const", "l_lag", "k_lag", "m_lag", "ll_lag", "kk_lag", "mm_lag", "lk_lag", "lm_lag" , "km_lag")])
+  X <- as.matrix(data[, c("const", "l", "k", "m", "ll", "kk", "mm", "lk", "lm", "km", "lkm")])
+  X_lag <- as.matrix(data[, c("const", "l_lag", "k_lag", "m_lag", "ll_lag", "kk_lag", "mm_lag", "lk_lag", "lm_lag" , "km_lag", "lkm_lag")])
 
   Y <- as.matrix(data[, "y"])
   C <- as.matrix(data[, "const"])
-  betas <- as.matrix(c(param["b0"], param["bl"], param["bk"], param["bm"], param["bll"], param["bkk"], param["bmm"], param["blk"], param["blm"], param["bkm"]),  ncol = 1)
+  betas <- as.matrix(c(param["b0"], param["bl"], param["bk"], param["bm"], param["bll"], param["bkk"], param["bmm"], param["blk"], param["blm"], param["bkm"], param["blkm"]),  ncol = 1)
 
   OMEGA <- Y - X %*% betas
   OMEGA_lag <- PHI_lag - X_lag %*% betas

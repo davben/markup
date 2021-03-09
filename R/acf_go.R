@@ -21,6 +21,7 @@
 #' * `convergence` An integer code. 0 indicates sucessful completion.
 #' * `message` A character string potentially giving additional information.
 #'
+#' @importFrom stats optim
 #' @export
 #'
 #' @details
@@ -59,7 +60,8 @@
 #' * lm (interaction of log labour and log materials)
 #' * km (interaction of log capital and log materials)
 #' * l_lag_k (interaction of lagged log labour and current log capital, no further lag required)
-#' * k_m_lag (interaction of log capital abd lagged log materials, no further lag required)
+#' * k_m_lag (interaction of log capital and lagged log materials, no further lag required)
+#' * l_lag_k_m_lag (interaction of lagged log labour, log capital and lagged log materials, no further lag required)
 #'
 #' @references
 #' Ackerberg, D. A., Caves, K., & Frazer, G. (2015). Identification Properties of Recent Production Function Estimators. Econometrica, 83(6), 2411–2451. https://doi.org/10.3982/ECTA13408
@@ -78,7 +80,7 @@ acf_go <- function(initial_values, data, type = c("cd", "tl"), ...) {
   }
 
   if (type == "tl") {
-    if (length(initial_values) != 10) stop("Estimating a Translog function requires initial values for b0, bl, bk, bm, bll, bkk, bmm, blk, blm, and bkm.")
+    if (length(initial_values) != 11) stop("Estimating a Translog function requires initial values for b0, bl, bk, bm, bll, bkk, bmm, blk, blm, bkm, and blkm.")
     initial_values <- check_initial_values(x = initial_values, type = "tlgo")
     result <- stats::optim(par = initial_values, fn = acf_go_gmm_tl, data = data, ...)
   }
