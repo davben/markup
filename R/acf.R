@@ -17,6 +17,7 @@
 #' * `convergence` An integer code. 0 indicates sucessful completion.
 #' * `message` A character string potentially giving additional information.
 #'
+#' @importFrom stats optim
 #' @export
 #'
 #' @details
