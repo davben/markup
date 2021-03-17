@@ -21,13 +21,13 @@ acf_go_gmm_cd <- function(param, data, instruments = c("const", "l_lag", "k", "m
   X_lag <- as.matrix(data[, c("const", "l_lag", "k_lag", "m_lag")])
 
   Y <- as.matrix(data[, "y"])
-  C <- as.matrix(data[, "const"])
+  C <- as.matrix(data[, c("log_w")])
   betas <- as.matrix(c(param["b0"], param["bl"], param["bk"], param["bm"]), ncol = 1)
 
   OMEGA <- Y - X %*% betas
   OMEGA_lag <- PHI_lag - X_lag %*% betas
 
-  OMEGA_lag_pol <- cbind(OMEGA_lag, OMEGA_lag^2, OMEGA_lag^3)
+  OMEGA_lag_pol <- cbind(OMEGA_lag, OMEGA_lag^2, OMEGA_lag^3, C)
 
   g_b <- solve(t(OMEGA_lag_pol) %*% OMEGA_lag_pol) %*% t(OMEGA_lag_pol) %*% OMEGA
   XI <- OMEGA - OMEGA_lag_pol %*% g_b
@@ -63,13 +63,13 @@ acf_go_gmm_tl <- function(param, data, instruments = c("const", "l_lag", "k", "m
   X_lag <- as.matrix(data[, c("const", "l_lag", "k_lag", "m_lag", "ll_lag", "kk_lag", "mm_lag", "lk_lag", "lm_lag" , "km_lag", "lkm_lag")])
 
   Y <- as.matrix(data[, "y"])
-  C <- as.matrix(data[, "const"])
+  C <- as.matrix(data[, c("log_w")])
   betas <- as.matrix(c(param["b0"], param["bl"], param["bk"], param["bm"], param["bll"], param["bkk"], param["bmm"], param["blk"], param["blm"], param["bkm"], param["blkm"]),  ncol = 1)
 
   OMEGA <- Y - X %*% betas
   OMEGA_lag <- PHI_lag - X_lag %*% betas
 
-  OMEGA_lag_pol <- cbind(OMEGA_lag, OMEGA_lag^2, OMEGA_lag^3)
+  OMEGA_lag_pol <- cbind(OMEGA_lag, OMEGA_lag^2, OMEGA_lag^3, C)
 
   g_b <- solve(t(OMEGA_lag_pol) %*% OMEGA_lag_pol) %*% t(OMEGA_lag_pol) %*% OMEGA
   XI <- OMEGA - OMEGA_lag_pol %*% g_b
