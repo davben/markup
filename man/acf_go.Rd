@@ -84,6 +84,8 @@ Depending on the functional type, the following variables as well as their lags 
 }
 \references{
 Ackerberg, D. A., Caves, K., & Frazer, G. (2015). Identification Properties of Recent Production Function Estimators. Econometrica, 83(6), 2411–2451. https://doi.org/10.3982/ECTA13408
+
 De Loecker, J., & Scott, P. T. (2016). Estimating market power Evidence from the US Brewing Industry (Working Paper Nr. 22957). National Bureau of Economic Research. https://doi.org/10.3386/w22957
+
 Gandhi, A., Navarro, S., & Rivers, D. A. (2020). On the Identification of Gross Output Production Functions. Journal of Political Economy, 128(8), 2973–3016. https://doi.org/10.1086/707736
 }
