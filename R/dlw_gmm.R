@@ -8,7 +8,7 @@
 #'
 #' @return numeric
 #' @importFrom stats complete.cases
-acf_gmm_cd <- function(param, data, instruments = c("l_lag", "k")){
+dlw_gmm_cd <- function(param, data, instruments = c("l_lag", "k")){
   data <- data[stats::complete.cases(data[, instruments]), ]
 
   if (!exists("const", data)) data$const <- 1
@@ -48,7 +48,7 @@ acf_gmm_cd <- function(param, data, instruments = c("l_lag", "k")){
 #'
 #' @return numeric
 #' @importFrom stats complete.cases
-acf_gmm_tl <- function(param, data, instruments = c("l_lag", "k", "ll_lag", "kk", "l_lag_k")){
+dlw_gmm_tl <- function(param, data, instruments = c("l_lag", "k", "ll_lag", "kk", "l_lag_k")){
   data <- data[stats::complete.cases(data[, instruments]), ]
 
   if (!exists("const", data)) data$const <- 1
