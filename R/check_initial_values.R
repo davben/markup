@@ -1,73 +1,39 @@
-check_initial_values <- function(x, type) {
-  if (type == "cd") {
-    cd_coefs <- c("b0", "bl", "bk")
-    x_names <- names(x)
-    if (is.null(x_names)) {
-      names(x) <- cd_coefs
-      message(
-        "Named initial values are recommended. Otherwise their order is assumed to be (1) b0, (2) bl, (3) bk."
-      )
-      return(x)
-    } else {
-      if (all(cd_coefs %in% x_names)) {
-        return(x)
-      } else {
-        stop("Please specify initial values as b0, bl, and bk.")
-      }
-    }
+check_initial_values <- function(x, type, version = NULL){
+
+  if (type == "cd") {coefs <- c("b0", "bl", "bk")}
+  if (type == "tl") {coefs <- c("b0", "bl", "bk", "bll", "bkk", "blk")}
+  if (type == "cdgo") {coefs <- c("b0", "bl", "bk", "bm")}
+  if (type == "tlgo") {coefs <- c("b0", "bl", "bk", "bm", "bll", "bkk", "bmm", "blk", "blm", "bkm", "blkm")}
+
+  if (version == "dlw") { # no b0 estimate in DLW
+    coefs <- coefs[-c(coefs == "b0")]
   }
 
-  if (type == "tl") {
-    tl_coefs <- c("b0", "bl", "bk", "bll", "bkk", "blk")
-    x_names <- names(x)
-    if (is.null(x_names)) {
-      names(x) <- tl_coefs
-      message(
-        "Named initial values are recommended. Otherwise their order is assumed to be (1) b0, (2) bl, (3) bk, (4) bll, (5) bkk, and (6) blk."
-      )
-      return(x)
-    } else {
-      if (all(tl_coefs %in% x_names)) {
-        return(x)
-      } else {
-        stop("Please specify initial values as b0, bl, bk, bll, bkk, and blk.")
-      }
-    }
-  }
+  x_names <- names(x)
 
-  if (type == "cdgo") {
-    cdgo_coefs <- c("b0", "bl", "bk", "bm")
-    x_names <- names(x)
-    if (is.null(x_names)) {
-      names(x) <- cdgo_coefs
-      message(
-        "Named initial values are recommended. Otherwise their order is assumed to be (1) b0, (2) bl, (3) bk, (4) bm."
-      )
-      return(x)
-    } else {
-      if (all(cdgo_coefs %in% x_names)) {
-        return(x)
-      } else {
-        stop("Please specify initial values as b0, bl, bk, and bm.")
-      }
-    }
-  }
+  # case 1: no named vector, correct number of values
+  if (is.null(x_names)) {
+    names(x) <- coefs
 
-  if (type == "tlgo") {
-    tlgo_coefs <- c("b0", "bl", "bk", "bm", "bll", "bkk", "bmm", "blk", "blm", "bkm", "blkm")
-    x_names <- names(x)
-    if (is.null(x_names)) {
-      names(x) <- tlgo_coefs
-      message(
-        "Named initial values are recommended. Otherwise their order is assumed to be (1) b0, (2) bl, (3) bk, (4) bm, (5) bll, (6) bkk, (7) bmm, (8) blk, (9) blm, (10) bkm, and (11) blkm."
-      )
+    order_message <- paste(paste("(", seq_along(coefs), ") ", coefs, sep = ""), collapse = ", ")
+
+    message(
+      paste0("Named initial values are recommended. Otherwise their order is assumed to be ",
+             order_message, ".")
+    )
+    return(x)
+  } else {
+    # case 2: correctly named vector
+    if (all(coefs %in% x_names)) {
       return(x)
     } else {
-      if (all(tlgo_coefs %in% x_names)) {
-        return(x)
-      } else {
-        stop("Please specify initial values as b0, bl, bk, bm, bll, bkk, bmm, blk, blm, bkm, and blkm.")
-      }
+      # case 3: incorrect number of values in vector
+      stop_message <- paste(paste("(", seq_along(coefs), ") ", coefs, sep = ""), collapse = ", ")
+      stop(
+        paste0("Please specify initial values for ",
+               stop_message, ".")
+      )
     }
   }
 }
+
