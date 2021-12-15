@@ -8,7 +8,8 @@ acf_go_gmm_tl(
   param,
   data,
   instruments = c("const", "l_lag", "k", "m_lag", "ll_lag", "kk", "mm_lag", "l_lag_k",
-    "lm_lag", "k_m_lag", "l_lag_k_m_lag", "phi_lag")
+    "lm_lag", "k_m_lag", "l_lag_k_m_lag", "phi_lag"),
+  controls = c("log_w", "nace3", "year")
 )
 }
 \arguments{

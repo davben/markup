@@ -7,7 +7,8 @@
 acf_go_gmm_cd(
   param,
   data,
-  instruments = c("const", "l_lag", "k", "m_lag", "phi_lag")
+  instruments = c("const", "l_lag", "k", "m_lag", "phi_lag"),
+  controls = c("log_w", "nace3", "year")
 )
 }
 \arguments{
