@@ -3,5 +3,6 @@
 export(acf)
 export(acf_go)
 export(dlw)
+export(dlw_go)
 importFrom(stats,complete.cases)
 importFrom(stats,optim)
