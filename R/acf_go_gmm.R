@@ -5,6 +5,7 @@
 #' @param param numeric
 #' @param data data frame
 #' @param instruments character
+#' @param controls character
 #'
 #' @return numeric
 #' @importFrom stats complete.cases
@@ -50,6 +51,7 @@ acf_go_gmm_cd <- function(param, data, instruments = c("const", "l_lag", "k", "m
 #' @param param numeric
 #' @param data data frame
 #' @param instruments character
+#' @param controls character
 #'
 #' @return numeric
 #' @importFrom stats complete.cases

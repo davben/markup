@@ -17,6 +17,8 @@ acf_go_gmm_cd(
 \item{data}{data frame}
 
 \item{instruments}{character}
+
+\item{controls}{character}
 }
 \value{
 numeric

@@ -18,6 +18,8 @@ acf_go_gmm_tl(
 \item{data}{data frame}
 
 \item{instruments}{character}
+
+\item{controls}{character}
 }
 \value{
 numeric
