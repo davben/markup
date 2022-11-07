@@ -5,14 +5,14 @@ check_initial_values <- function(x, type, version = NULL){
   if (type == "cdgo") {coefs <- c("b0", "bl", "bk", "bm")}
   if (type == "tlgo") {coefs <- c("b0", "bl", "bk", "bm", "bll", "bkk", "bmm", "blk", "blm", "bkm", "blkm")}
 
-  if (version == "dlw") { # no b0 estimate in DLW
+  if (!is.null(version)) { # no b0 estimate in DLW
     coefs <- coefs[-c(coefs == "b0")]
   }
 
   x_names <- names(x)
 
   # case 1: no named vector, correct number of values
-  if (is.null(x_names)) {
+  if (is.null(x_names) & length(x) == length(coefs)) {
     names(x) <- coefs
 
     order_message <- paste(paste("(", seq_along(coefs), ") ", coefs, sep = ""), collapse = ", ")
