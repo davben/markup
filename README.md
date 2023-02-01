@@ -1,0 +1,75 @@
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+# markup
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+A package for two-stage GMM production function estimation in R.
+
+## Overview
+
+The goal of markup is to provide a reliable way of estimating production
+functions from firm-level data in order to provide the output
+elasticities needed for determining firm-level markups following the
+approach by [De Loecker and
+Warzynski](https://doi.org/10.1257/aer.102.6.2437).
+
+The package implements the two-stage estimation approach proposed by
+[Ackerberg, Caves, and Frazer](https://doi.org/10.3982/ECTA13408) in the
+main function `acf()`, supporting both Cobb-Douglas and translog
+specifications.
+
+Additionally, the function `dlw()` provides an alternative version of
+the ACF-approach used by [De Loecker and
+Warzynski](https://doi.org/10.1257/aer.102.6.2437). It is based on a
+slightly different instrumentation in the second-stage GMM estimation.
+
+## Installation
+
+You can install the development version of markup from
+[GitHub](https://github.com/) with:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("davben/markup")
+```
+
+## Example
+
+Given a panel of firm-level production data, the basic approach of
+markup requires running a first-stage regression to estimate expected
+output and the random error \_{it}. This is usually done via a
+higher-order polynomial with interactions and possibly time (and
+industry) fixed effects:
+
+``` r
+library(tidyverse)
+library(markup)
+
+stage_one <- lm(y ~ l + ll + lll + k + kk + kkk + m + mm + mmm + lk + lm + km + lkm + factor(year), data = df)
+
+df <- df %>%
+    mutate(phi = predict(stage_one),
+           epsilon = resid(stage_one)) %>%
+    group_by(firm_id) %>%
+    mutate(phi_lag = lag(phi, order_by = year)) %>%
+    ungroup()
+```
+
+Production function coefficients can then be estimated like this:
+
+``` r
+## Cobb-Douglas:
+acf(initial_values = c(b0 = 0, bl = 0.4, bk = 0.6), data = df, type = "cd")
+
+## Translog
+acf(initial_values = c(b0 = 0, bl = 0.5, bk = 0.6, bll = -0.1, bkk = -0.05, blk = 0.1)), data = df, type = "tl")
+```
+
+Initial values for the GMM-estimation need to be provided. These can
+either be chosen by estimating an OLS regression of the assumed
+production function and using its coefficients as a starting point.
+Alternatively, the estimation can be run over a grid of initial values
+in order to test the robustness of the results.
